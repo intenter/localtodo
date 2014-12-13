@@ -7,10 +7,17 @@
     <script type="text/javascript" src="todo.js"></script>
     <link rel="stylesheet" href="todo.css">
 </head>
-<body>
+<body ng-controller="TodoController" ng-keypress="keyPressed($event)">
 <h2>Todo</h2>
-<div ng-controller="TodoController">
+<div>
 
+    <form ng-submit="addTodo()" class="form-inline">
+        <input type="text" ng-model="todoText"  size="30"
+               placeholder="add new todo here" class="form-control" ng-keypress="doNothingOnKeyPress($event)">
+        <button class="btn btn-primary" type="submit">Add</button>
+    </form>
+
+    <hr />
 
     <tabset>
         <tab heading="ToDo ({{remaining()}})">
@@ -18,7 +25,7 @@
             <ul class="unstyled">
                 <li ng-repeat="todo in todos | orderBy : 'priority'" ng-hide="todo.done">
                     <input type="checkbox" ng-model="todo.selected">
-                    <span>{{todo.text}}</span>
+                    <span>[{{todo.priority}}] {{todo.text}}</span>
                 </li>
             </ul>
         </tab>
@@ -32,13 +39,6 @@
         </tab>
     </tabset>
 
-    <hr />
-
-    <form ng-submit="addTodo()" class="form-inline">
-        <input type="text" ng-model="todoText"  size="30"
-               placeholder="add new todo here" class="form-control">
-        <button class="btn btn-primary" type="submit">Add</button>
-    </form>
 </div>
 </body>
 </html>

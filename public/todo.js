@@ -28,6 +28,25 @@ angular.module('todoApp')
             });
         };
 
+        $scope.keyPressed = function($event){
+            if ($event.keyCode == 65 || $event.keyCode == 97) {
+                angular.forEach($scope.todos, function(todo){
+                if (!todo.done) {
+                    todo.selected = true;
+                }});
+            } else if ($event.keyCode == 78 || $event.keyCode == 110) {
+                angular.forEach($scope.todos, function(todo){
+                        todo.selected = false;
+                    });
+            }
+
+            console.log('Voila!' + $event.keyCode);
+        };
+        $scope.doNothingOnKeyPress = function($event){
+            $event.stopImmediatePropagation();
+        };
+
+
         $scope.archive = function() {
             var oldTodos = $scope.todos;
             $scope.todos = [];
