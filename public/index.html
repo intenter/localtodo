@@ -13,18 +13,18 @@
 
 
     <tabset>
-        <tab heading="ToDo ( {{remaining()}} )">
+        <tab heading="ToDo ({{remaining()}})">
             <button type="button" class="btn btn-success" ng-click="completeSelected()">Complete</button>
             <ul class="unstyled">
-                <li ng-repeat="todo in todos" ng-hide="todo.done">
+                <li ng-repeat="todo in todos | orderBy : 'priority'" ng-hide="todo.done">
                     <input type="checkbox" ng-model="todo.selected">
                     <span>{{todo.text}}</span>
                 </li>
             </ul>
         </tab>
-        <tab heading="Done {{todos.length}}">
+        <tab heading="Done ({{todos.length - remaining()}})">
             <ul class="unstyled">
-                <li ng-repeat="todo in todos" ng-show="todo.done">
+                <li ng-repeat="todo in todos | orderBy : '-completed'" ng-show="todo.done">
                     <input type="checkbox" ng-model="todo.selected">
                     <span class="done-{{todo.done}}">{{todo.text}}</span>
                 </li>
@@ -34,10 +34,10 @@
 
     <hr />
 
-    <form ng-submit="addTodo()">
+    <form ng-submit="addTodo()" class="form-inline">
         <input type="text" ng-model="todoText"  size="30"
-               placeholder="add new todo here">
-        <input class="btn-primary" type="submit" value="add">
+               placeholder="add new todo here" class="form-control">
+        <button class="btn btn-primary" type="submit">Add</button>
     </form>
 </div>
 </body>
