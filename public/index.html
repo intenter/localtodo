@@ -10,11 +10,14 @@
 <body>
 <h2>Todo</h2>
 <div ng-controller="TodoController">
+
+
     <tabset>
         <tab heading="ToDo ( {{remaining()}} )">
+            <button type="button" class="btn btn-success" ng-click="completeSelected()">Complete</button>
             <ul class="unstyled">
                 <li ng-repeat="todo in todos" ng-hide="todo.done">
-                    <input type="checkbox" ng-model="todo.done">
+                    <input type="checkbox" ng-model="todo.selected">
                     <span>{{todo.text}}</span>
                 </li>
             </ul>
@@ -22,7 +25,7 @@
         <tab heading="Done {{todos.length}}">
             <ul class="unstyled">
                 <li ng-repeat="todo in todos" ng-show="todo.done">
-                    <input type="checkbox" ng-model="todo.done">
+                    <input type="checkbox" ng-model="todo.selected">
                     <span class="done-{{todo.done}}">{{todo.text}}</span>
                 </li>
             </ul>

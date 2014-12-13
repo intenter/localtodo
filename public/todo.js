@@ -2,11 +2,11 @@ angular.module('todoApp', ['ui.bootstrap']);
 angular.module('todoApp')
     .controller('TodoController', ['$scope', function($scope) {
         $scope.todos = [
-            {text:'learn angular', done:true},
-            {text:'build an angular app', done:false}];
+            {text:'learn angular', done:true, selected:false},
+            {text:'build an angular app', done:false, selected:false}];
 
         $scope.addTodo = function() {
-            $scope.todos.push({text:$scope.todoText, done:false});
+            $scope.todos.push({text:$scope.todoText, done:false, selected:false});
             $scope.todoText = '';
         };
 
@@ -16,6 +16,15 @@ angular.module('todoApp')
                 count += todo.done ? 0 : 1;
             });
             return count;
+        };
+
+        $scope.completeSelected = function(){
+            angular.forEach($scope.todos, function(todo){
+                if (todo.selected) {
+                    todo.selected = false;
+                    todo.done = true;
+                }
+            });
         };
 
         $scope.archive = function() {
