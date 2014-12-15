@@ -8,17 +8,23 @@
     <link rel="stylesheet" href="todo.css">
 </head>
 <body ng-controller="TodoController" ng-keypress="keyPressed($event)">
-<h2>Todo</h2>
+<nav class="navbar navbar-default" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">
+                Todo List
+            </a>
+        </div>
+        <form ng-submit="addTodo()" class="navbar-form navbar-left">
+            <div class="form-group">
+                <input type="text" ng-model="todoText"  size="60"
+                       placeholder="add new todo here" class="form-control" ng-keypress="doNothingOnKeyPress($event)">
+            </div>
+            <button class="btn btn-primary" type="submit">Add</button>
+        </form>
+    </div>
+</nav>
 <div>
-
-    <form ng-submit="addTodo()" class="form-inline">
-        <input type="text" ng-model="todoText"  size="30"
-               placeholder="add new todo here" class="form-control" ng-keypress="doNothingOnKeyPress($event)">
-        <button class="btn btn-primary" type="submit">Add</button>
-    </form>
-
-    <hr />
-
     <tabset>
         <tab heading="ToDo ({{remaining()}})">
             <button type="button" class="btn btn-success" ng-click="completeSelected()">Complete</button>
