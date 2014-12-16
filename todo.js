@@ -69,7 +69,7 @@ angular.module('todoApp')
             } else if ($event.keyCode >= 49 && $event.keyCode <= 51) {
                 angular.forEach($scope.todos, function(todo){
                     if (todo.selected){
-                        todo.priority = 49 - $event.keyCode;
+                        todo.priority = $event.keyCode - 49;
                     }
                 });
             }
