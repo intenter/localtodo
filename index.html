@@ -4,6 +4,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular.min.js"></script>
     <script type="text/javascript" src="scripts/ui-bootstrap-tpls-0.12.0.js"></script>
+    <script type="text/javascript" src="scripts/angular-indexed-db.js"></script>
     <script type="text/javascript" src="todo.js"></script>
     <link rel="stylesheet" href="todo.css">
 </head>
@@ -30,12 +31,11 @@
         </div>
     </nav>
     <div>
-        <div>{{searchString}}</div>
         <tabset>
             <tab heading="ToDo ({{remaining()}})">
                 <button type="button" class="btn btn-success" ng-click="completeSelected()">Complete</button>
                 <ul class="unstyled">
-                    <li ng-repeat="todo in todos | filter : searchString | orderBy : 'priority'" ng-hide="todo.done">
+                    <li ng-repeat="todo in todos track by todo.created | filter : searchString | orderBy : 'priority'" ng-hide="todo.done">
                         <input type="checkbox" ng-model="todo.selected">
                         <span>[{{todo.priority}}] {{todo.text}}</span>
                     </li>
@@ -44,7 +44,7 @@
             <tab heading="Done ({{todos.length - remaining()}})">
 
                 <ul class="unstyled">
-                    <li ng-repeat="todo in todos | filter : searchString | orderBy : '-completed'" ng-show="todo.done">
+                    <li ng-repeat="todo in todos track by todo.created | filter : searchString | orderBy : '-completed'" ng-show="todo.done">
                         <input type="checkbox" ng-model="todo.selected">
                         <span class="done-{{todo.done}}">{{todo.text}}</span>
                     </li>

@@ -1,13 +1,35 @@
 angular.module('todoApp', ['ui.bootstrap']);
+angular.module('todoApp', ['indexedDB'])
+    .config(function ($indexedDBProvider) {
+        $indexedDBProvider
+            .connection('todoDB')
+            .upgradeDatabase(1, function(event, db, tx){
+                var objStore = db.createObjectStore('todos', {keyPath: "created"});
+                console.log("Store created");
+            });
+    });
+
 angular.module('todoApp')
-    .controller('TodoController', ['$scope', function($scope) {
-        $scope.todos = [
-            {text:'learn angular', done:false, selected:false, priority:2, created: new Date()},
-            {text:'build an angular app', done:false, selected:false, priority:1, created: new Date()}];
+    .controller('TodoController', ['$scope', '$indexedDB', function($scope, $indexedDB) {
+        $scope.todos = [];
+
+        $indexedDB.openStore('todos', function(todos){
+            todos.getAll().then(function(todos) {
+                console.log("Got the items from store");
+                $scope.todos = todos;
+                });
+            });
 
         $scope.addTodo = function() {
-            $scope.todos.push({text:$scope.todoText, done:false, selected:false, priority:0, created: new Date()});
-            $scope.todoText = '';
+            $indexedDB.openStore('todos', function(todos){
+                var created = new Date().getTime();
+                var newTodo = {text: $scope.todoText, done: false, selected: false, priority: 0, created: created};
+                todos.insert(newTodo).then(function(){
+                    $scope.todos.push(newTodo);
+                    $scope.todoText = '';
+                    console.log ("Saved new todo to the db");
+                });
+            });
         };
 
         $scope.remaining = function() {
@@ -19,13 +41,19 @@ angular.module('todoApp')
         };
 
         $scope.completeSelected = function(){
-            angular.forEach($scope.todos, function(todo){
-                if (todo.selected) {
-                    todo.selected = false;
-                    todo.completed = new Date();
-                    todo.done = true;
-                }
+            $indexedDB.openStore('todos', function(todoStore){
+                angular.forEach($scope.todos, function(todo){
+                    if (todo.selected) {
+                        todo.selected = false;
+                        todo.completed = new Date();
+                        todo.done = true;
+                        todoStore.upsert(todo).then(function(){
+                            console.log("Updated an object");
+                        });
+                    }
+                });
             });
+
         };
 
         $scope.keyPressed = function($event){
@@ -38,6 +66,12 @@ angular.module('todoApp')
                 angular.forEach($scope.todos, function(todo){
                         todo.selected = false;
                     });
+            } else if ($event.keyCode >= 49 && $event.keyCode <= 51) {
+                angular.forEach($scope.todos, function(todo){
+                    if (todo.selected){
+                        todo.priority = 49 - $event.keyCode;
+                    }
+                });
             }
 
             console.log('Voila!' + $event.keyCode);
@@ -46,13 +80,4 @@ angular.module('todoApp')
             $event.stopImmediatePropagation();
         };
 
-
-        $scope.archive = function() {
-            var oldTodos = $scope.todos;
-            $scope.todos = [];
-            angular.forEach(oldTodos, function(todo) {
-                if (!todo.done) $scope.todos.push(todo);
-            });
-
-        };
     }]);
