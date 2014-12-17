@@ -5,6 +5,9 @@ angular.module('todoApp', ['ui.bootstrap', 'indexedDB'])
             .upgradeDatabase(1, function(event, db, tx){
                 var objStore = db.createObjectStore('todos', {keyPath: "created"});
                 console.log("Store created");
+            }).upgradeDatabase(2, function(event, db, tx){
+                db.deleteObjectStore('todos');
+                var objStore = db.createObjectStore('todos', {keyPath: "key", autoIncrement: true});
             });
     });
 
@@ -21,9 +24,10 @@ angular.module('todoApp')
 
         $scope.addTodo = function() {
             $indexedDB.openStore('todos', function(todos){
-                var created = new Date().getTime();
+                var created = new Date();
                 var newTodo = {text: $scope.todoText, done: false, selected: false, priority: 0, created: created};
-                todos.insert(newTodo).then(function(){
+                todos.insert(newTodo).then(function(newKeys){
+                    newTodo.key = newKeys[0];
                     $scope.todos.push(newTodo);
                     $scope.todoText = '';
                     console.log ("Saved new todo to the db");
