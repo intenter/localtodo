@@ -1,5 +1,4 @@
-angular.module('todoApp', ['ui.bootstrap']);
-angular.module('todoApp', ['indexedDB'])
+angular.module('todoApp', ['ui.bootstrap', 'indexedDB'])
     .config(function ($indexedDBProvider) {
         $indexedDBProvider
             .connection('todoDB')
