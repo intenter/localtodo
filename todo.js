@@ -25,9 +25,31 @@ angular.module('todoApp')
                 });
             });
 
+        var isEmpty = function(str) {
+            return (!str || 0 === str.trim().length);
+        };
+
         $scope.addTodo = function() {
+            var tags = [];
+            var todoText = "";
+            $scope.todoText.split(" ").forEach(function(token){
+                if (!isEmpty(token)) {
+                    if (token.charAt(0) === '#') {
+                        tags.push(token.substr(1));
+                    } else {
+                        todoText = todoText.length === 0 ? token : " " + token;
+                    }
+                }
+            });
+
+            if (isEmpty(todoText)) {
+                return;
+            }
+
+            var newTodo = {text: todoText, done: false, selected: false, priority: 0, created: new Date(), tags: tags};
+
             $indexedDB.openStore('todos', function(todos){
-                var newTodo = {text: $scope.todoText, done: false, selected: false, priority: 0, created: new Date()};
+
                 todos.insert(newTodo).then(function(newKeys){
                     newTodo.key = newKeys[0];
                     $scope.todos.push(newTodo);
@@ -58,6 +80,11 @@ angular.module('todoApp')
                     }
                 });
             });
+        };
+
+        $scope.searchFor = function (str){
+            $scope.searchString = str;
+            $log.debug(str);
         };
 
         function setPriority(priority) {

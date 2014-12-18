@@ -2,3 +2,7 @@
     text-decoration: line-through;
     color: grey;
 }
+
+.label-margin {
+    margin-right: .1em;
+}

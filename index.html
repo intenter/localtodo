@@ -41,7 +41,7 @@
                 <ul class="list-group">
                     <li class="list-group-item" ng-repeat="todo in todos | filter : searchString | orderBy : 'priority' track by todo.key" ng-hide="todo.done">
                         <input type="checkbox" ng-model="todo.selected">
-                        <span>[{{todo.priority}}] {{todo.text}}</span>
+                        <span>[{{todo.priority}}] <a href="" ng-click="searchFor(tag)" ng-repeat="tag in todo.tags" class="label label-primary label-margin">{{tag}}</a> {{todo.text}}</span>
                     </li>
                 </ul>
             </tab>
