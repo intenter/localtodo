@@ -12,7 +12,7 @@ angular.module('todoApp', ['ui.bootstrap', 'indexedDB'])
     });
 
 angular.module('todoApp')
-    .controller('TodoController', ['$scope', '$indexedDB', function($scope, $indexedDB) {
+    .controller('TodoController', ['$scope', '$indexedDB', '$log', function($scope, $indexedDB, $log) {
         $scope.todos = [];
 
         $indexedDB.openStore('todos', function(todos){
@@ -33,7 +33,7 @@ angular.module('todoApp')
                     newTodo.key = newKeys[0];
                     $scope.todos.push(newTodo);
                     $scope.todoText = '';
-                    console.log ("Saved new todo to the db");
+                    $log.debug("Saved new todo to the db");
                 });
             });
         };
@@ -54,7 +54,7 @@ angular.module('todoApp')
                         todo.completed = new Date();
                         todo.done = true;
                         todoStore.upsert(todo).then(function(){
-                            console.log("Updated an object");
+                            $log.debug("Updated an object");
                         });
                     }
                 });
@@ -67,7 +67,7 @@ angular.module('todoApp')
                     if (todo.selected) {
                         todo.priority = priority;
                         todoStore.upsert(todo).then(function(){
-                            console.log("Updated an object");
+                            $log.debug("Updated an object");
                         });
                     }
                 });
@@ -87,7 +87,7 @@ angular.module('todoApp')
             } else if ($event.keyCode >= 49 && $event.keyCode <= 51) {
                 setPriority($event.keyCode - 49);
             }
-            console.log('Key pressed: ' + $event.keyCode);
+            $log.debug('Key pressed: ' + $event.keyCode);
         };
         $scope.doNothingOnKeyPress = function($event){
             $event.stopImmediatePropagation();
