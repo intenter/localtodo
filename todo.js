@@ -17,12 +17,11 @@ angular.module('todoApp')
 
         $indexedDB.openStore('todos', function(todos){
             todos.getAll().then(function(todos) {
-                console.log("Got the items from store");
+                $log.debug("Got the items from store");
                 angular.forEach(todos, function(todo){
                     todo.selected = false;
                 });
                 $scope.todos = todos;
-
                 });
             });
 
@@ -74,21 +73,23 @@ angular.module('todoApp')
             });
         }
 
+        function selectAllNotCompleted(select) {
+            angular.forEach($scope.todos, function (todo) {
+                todo.selected = select;
+            });
+        }
+
         $scope.keyPressed = function($event){
             if ($event.keyCode == 65 || $event.keyCode == 97) {
-                angular.forEach($scope.todos, function(todo){
-                if (!todo.done) {
-                    todo.selected = true;
-                }});
+                selectAllNotCompleted(true);
             } else if ($event.keyCode == 78 || $event.keyCode == 110) {
-                angular.forEach($scope.todos, function(todo){
-                        todo.selected = false;
-                    });
+                selectAllNotCompleted(false);
             } else if ($event.keyCode >= 49 && $event.keyCode <= 51) {
                 setPriority($event.keyCode - 49);
             }
             $log.debug('Key pressed: ' + $event.keyCode);
         };
+
         $scope.doNothingOnKeyPress = function($event){
             $event.stopImmediatePropagation();
         };
