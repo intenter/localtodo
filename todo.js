@@ -87,8 +87,7 @@ angular.module('todoApp')
             } else if ($event.keyCode >= 49 && $event.keyCode <= 51) {
                 setPriority($event.keyCode - 49);
             }
-
-            console.log('Voila!' + $event.keyCode);
+            console.log('Key pressed: ' + $event.keyCode);
         };
         $scope.doNothingOnKeyPress = function($event){
             $event.stopImmediatePropagation();

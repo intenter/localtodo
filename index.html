@@ -33,19 +33,24 @@
     </nav>
     <div>
         <tabset>
-            <tab heading="ToDo ({{remaining()}})">
+            <tab>
+                <tab-heading>
+                    ToDo <span class="badge">{{remaining()}}</span>
+                </tab-heading>
                 <button type="button" class="btn btn-success" ng-click="completeSelected()">Complete</button>
-                <ul class="unstyled">
-                    <li ng-repeat="todo in todos | filter : searchString | orderBy : 'priority' track by todo.key" ng-hide="todo.done">
+                <ul class="list-group">
+                    <li class="list-group-item" ng-repeat="todo in todos | filter : searchString | orderBy : 'priority' track by todo.key" ng-hide="todo.done">
                         <input type="checkbox" ng-model="todo.selected">
                         <span>[{{todo.priority}}] {{todo.text}}</span>
                     </li>
                 </ul>
             </tab>
-            <tab heading="Done ({{todos.length - remaining()}})">
-
-                <ul class="unstyled">
-                    <li ng-repeat="todo in todos | filter : searchString | orderBy : '-completed' track by todo.key" ng-show="todo.done">
+            <tab>
+                <tab-heading>
+                    Done <span class="badge">{{todos.length - remaining()}}</span>
+                </tab-heading>
+                <ul class="list-group">
+                    <li class="list-group-item" ng-repeat="todo in todos | filter : searchString | orderBy : '-completed' track by todo.key" ng-show="todo.done">
                         <span class="done-{{todo.done}}">{{todo.text}}</span>
                     </li>
                 </ul>
