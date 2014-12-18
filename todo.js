@@ -18,14 +18,17 @@ angular.module('todoApp')
         $indexedDB.openStore('todos', function(todos){
             todos.getAll().then(function(todos) {
                 console.log("Got the items from store");
+                angular.forEach(todos, function(todo){
+                    todo.selected = false;
+                });
                 $scope.todos = todos;
+
                 });
             });
 
         $scope.addTodo = function() {
             $indexedDB.openStore('todos', function(todos){
-                var created = new Date();
-                var newTodo = {text: $scope.todoText, done: false, selected: false, priority: 0, created: created};
+                var newTodo = {text: $scope.todoText, done: false, selected: false, priority: 0, created: new Date()};
                 todos.insert(newTodo).then(function(newKeys){
                     newTodo.key = newKeys[0];
                     $scope.todos.push(newTodo);
@@ -56,8 +59,20 @@ angular.module('todoApp')
                     }
                 });
             });
-
         };
+
+        function setPriority(priority) {
+            $indexedDB.openStore('todos', function(todoStore){
+                angular.forEach($scope.todos, function(todo){
+                    if (todo.selected) {
+                        todo.priority = priority;
+                        todoStore.upsert(todo).then(function(){
+                            console.log("Updated an object");
+                        });
+                    }
+                });
+            });
+        }
 
         $scope.keyPressed = function($event){
             if ($event.keyCode == 65 || $event.keyCode == 97) {
@@ -70,11 +85,7 @@ angular.module('todoApp')
                         todo.selected = false;
                     });
             } else if ($event.keyCode >= 49 && $event.keyCode <= 51) {
-                angular.forEach($scope.todos, function(todo){
-                    if (todo.selected){
-                        todo.priority = $event.keyCode - 49;
-                    }
-                });
+                setPriority($event.keyCode - 49);
             }
 
             console.log('Voila!' + $event.keyCode);
