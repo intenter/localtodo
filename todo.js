@@ -32,10 +32,16 @@ angular.module('todoApp')
         $scope.addTodo = function() {
             var tags = [];
             var todoText = "";
+            var priority = 0;
             $scope.todoText.split(" ").forEach(function(token){
                 if (!isEmpty(token)) {
                     if (token.charAt(0) === '#') {
                         tags.push(token.substr(1));
+                    } else if (token.charAt(0) === '!'){
+                        priority = parseInt(token.substr(1)) - 1;
+                        if (priority > 2) {
+                            priority = 2;
+                        }
                     } else {
                         todoText = todoText.length === 0 ? token : todoText + " " + token;
                     }
@@ -46,7 +52,7 @@ angular.module('todoApp')
                 return;
             }
 
-            var newTodo = {text: todoText, done: false, selected: false, priority: 0, created: new Date(), tags: tags};
+            var newTodo = {text: todoText, done: false, selected: false, priority: priority, created: new Date(), tags: tags};
 
             $indexedDB.openStore('todos', function(todos){
 

@@ -9,33 +9,36 @@
     <link rel="stylesheet" href="todo.css">
 </head>
 <body ng-controller="TodoController" ng-keypress="keyPressed($event)">
-<div class="container">
-    <nav class="navbar navbar-default" role="navigation">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <a class="navbar-brand" href="#">
-                    Todo List
-                </a>
-            </div>
-            <form ng-submit="addTodo()" class="navbar-form navbar-left">
-                <div class="form-group">
-                    <input type="text" ng-model="todoText"  size="60"
-                           placeholder="add new todo here" class="form-control" ng-keypress="doNothingOnKeyPress($event)">
-                </div>
-                <button class="btn btn-primary" type="submit">Add</button>
-            </form>
-            <form class="navbar-form navbar-right" role="search">
-                <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Search" ng-model="searchString" ng-keypress="doNothingOnKeyPress($event)">
-                </div>
-            </form>
+<nav class="navbar navbar-default" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">
+                Todo List
+            </a>
         </div>
-    </nav>
-    <div class="btn-group">
-        <button type="button" class="btn btn-success" ng-click="completeSelected()">Complete</button>
-        <label class="btn btn-primary" ng-model="showDone" btn-checkbox>Show Done</label>
+        <form ng-submit="addTodo()" class="navbar-form navbar-left">
+            <div class="form-group">
+                <input type="text" ng-model="todoText"  size="60"
+                       placeholder="add new todo here" class="form-control" ng-keypress="doNothingOnKeyPress($event)">
+            </div>
+            <button class="btn btn-primary" type="submit">Add</button>
+        </form>
+        <form class="navbar-form navbar-right" role="search">
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="Search" ng-model="searchString" ng-keypress="doNothingOnKeyPress($event)">
+            </div>
+        </form>
     </div>
-    <div>
+</nav>
+<div class="container">
+    <div class="row">
+        <div class="btn-group">
+            <button type="button" class="btn btn-success" ng-click="completeSelected()">Complete</button>
+            <label class="btn btn-primary" ng-model="showDone" btn-checkbox>Show Done</label>
+        </div>
+    </div>
+    <p></p>
+    <div class="row">
         <tabset>
             <tab>
                 <tab-heading>
