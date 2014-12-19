@@ -31,27 +31,21 @@
             </form>
         </div>
     </nav>
+    <div class="btn-group">
+        <button type="button" class="btn btn-success" ng-click="completeSelected()">Complete</button>
+        <label class="btn btn-primary" ng-model="showDone" btn-checkbox>Show Done</label>
+    </div>
     <div>
         <tabset>
             <tab>
                 <tab-heading>
-                    ToDo <span class="badge">{{remaining()}}</span>
-                </tab-heading>
-                <button type="button" class="btn btn-success" ng-click="completeSelected()">Complete</button>
-                <ul class="list-group">
-                    <li class="list-group-item" ng-repeat="todo in todos | filter : searchString | orderBy : 'priority' track by todo.key" ng-hide="todo.done">
-                        <input type="checkbox" ng-model="todo.selected">
-                        <span>[{{todo.priority}}] <a href="" ng-click="searchFor(tag)" ng-repeat="tag in todo.tags" class="label label-primary label-margin">{{tag}}</a> {{todo.text}}</span>
-                    </li>
-                </ul>
-            </tab>
-            <tab>
-                <tab-heading>
-                    Done <span class="badge">{{todos.length - remaining()}}</span>
+                    All Items <span class="badge">{{remaining()}} / {{todos.length - remaining()}}</span>
                 </tab-heading>
                 <ul class="list-group">
-                    <li class="list-group-item" ng-repeat="todo in todos | filter : searchString | orderBy : '-completed' track by todo.key" ng-show="todo.done">
-                        <span class="done-{{todo.done}}">{{todo.text}}</span>
+                    <li class="list-group-item done-{{todo.done}}" ng-repeat="todo in todos | filter : searchString | orderBy : ['done', '-completed', 'priority'] track by todo.key" ng-hide="!showDone && todo.done">
+                        <input type="checkbox" ng-model="todo.selected" ng-hide="todo.done">
+                        <span>[{{todo.priority + 1}}] <a href="" ng-click="searchFor(tag)" ng-repeat="tag in todo.tags" class="label label-primary label-margin">{{tag}}</a> {{todo.text}}</span>
+                        <span class="pull-right" ng-show="todo.done">{{todo.completed | date}}</span>
                     </li>
                 </ul>
             </tab>

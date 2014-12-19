@@ -102,7 +102,9 @@ angular.module('todoApp')
 
         function selectAllNotCompleted(select) {
             angular.forEach($scope.todos, function (todo) {
-                todo.selected = select;
+                if (!todo.done){
+                    todo.selected = select;
+                }
             });
         }
 
