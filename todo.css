@@ -6,3 +6,7 @@
 .label-margin {
     margin-right: .1em;
 }
+
+.list-group-item {
+    padding: 4px 10px;
+}

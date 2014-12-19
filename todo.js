@@ -37,7 +37,7 @@ angular.module('todoApp')
                     if (token.charAt(0) === '#') {
                         tags.push(token.substr(1));
                     } else {
-                        todoText = todoText.length === 0 ? token : " " + token;
+                        todoText = todoText.length === 0 ? token : todoText + " " + token;
                     }
                 }
             });
