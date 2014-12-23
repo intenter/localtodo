@@ -106,24 +106,48 @@ angular.module('todoApp')
             });
         }
 
-        function selectAllNotCompleted(select) {
+        this.selectAllNotCompleted = function(select) {
             angular.forEach($scope.todos, function (todo) {
                 if (!todo.done){
                     todo.selected = select;
                 }
             });
-        }
+        };
 
         $scope.keyPressed = function($event){
             if ($event.keyCode == 65 || $event.keyCode == 97) {
-                selectAllNotCompleted(true);
+                this.selectAllNotCompleted(true);
             } else if ($event.keyCode == 78 || $event.keyCode == 110) {
-                selectAllNotCompleted(false);
+                this.selectAllNotCompleted(false);
             } else if ($event.keyCode >= 49 && $event.keyCode <= 51) {
                 setPriority($event.keyCode - 49);
             }
             $log.debug('Key pressed: ' + $event.keyCode);
         };
+
+        $scope.activeTags = [];
+
+        $scope.$watch('todos', function (){
+            var activeTagsMap = {};
+            angular.forEach($scope.todos, function(todo){
+                if (!todo.done) {
+                    angular.forEach(todo.tags, function (tag){
+                        if (tag in activeTagsMap) {
+                            var oldValue = activeTagsMap[tag];
+                            oldValue ++;
+                            activeTagsMap[tag] = oldValue;
+                        } else {
+                            activeTagsMap[tag] = 1;
+                        }
+                    });
+                }
+            });
+            var activeTags = [];
+            angular.forEach(activeTagsMap, function(tag, count){
+                this.push ({"tag":tag, "count":count});
+            }, activeTags);
+            $scope.activeTags = activeTags;
+        });
 
         $scope.doNothingOnKeyPress = function($event){
             $event.stopImmediatePropagation();

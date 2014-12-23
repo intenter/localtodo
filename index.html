@@ -53,6 +53,9 @@
                 </ul>
             </tab>
         </tabset>
+        <ul class="list-group">
+            <li class="list-group-item" ng-repeat="tagInfo in activeTags | orderBy: '-count'">{{tagInfo.tag}} - {{tagInfo.count}}</li>
+        </ul>
     </div>
 </div>
 </body>
