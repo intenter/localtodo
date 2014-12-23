@@ -14,6 +14,7 @@ angular.module('todoApp', ['ui.bootstrap', 'indexedDB'])
 angular.module('todoApp')
     .controller('TodoController', ['$scope', '$indexedDB', '$log', function($scope, $indexedDB, $log) {
         $scope.todos = [];
+        $scope.activeTags = [];
 
         $indexedDB.openStore('todos', function(todos){
             todos.getAll().then(function(todos) {
@@ -61,6 +62,7 @@ angular.module('todoApp')
                     $scope.todos.push(newTodo);
                     $scope.todoText = '';
                     $log.debug("Saved new todo to the db");
+                    $scope.updateTags();
                 });
             });
         };
@@ -82,6 +84,7 @@ angular.module('todoApp')
                         todo.done = true;
                         todoStore.upsert(todo).then(function(){
                             $log.debug("Updated an object");
+                            $scope.updateTags();
                         });
                     }
                 });
@@ -125,9 +128,8 @@ angular.module('todoApp')
             $log.debug('Key pressed: ' + $event.keyCode);
         };
 
-        $scope.activeTags = [];
-
-        $scope.$watch('todos', function (){
+        $scope.updateTags = function (){
+            $log.debug("Updating tags array");
             var activeTagsMap = {};
             angular.forEach($scope.todos, function(todo){
                 if (!todo.done) {
@@ -143,11 +145,14 @@ angular.module('todoApp')
                 }
             });
             var activeTags = [];
-            angular.forEach(activeTagsMap, function(tag, count){
+            angular.forEach(activeTagsMap, function(count, tag){
+                $log.debug("adding tag " + tag + ": " + count);
                 this.push ({"tag":tag, "count":count});
             }, activeTags);
             $scope.activeTags = activeTags;
-        });
+        };
+
+        $scope.$watch('todos', $scope.updateTags);
 
         $scope.doNothingOnKeyPress = function($event){
             $event.stopImmediatePropagation();
