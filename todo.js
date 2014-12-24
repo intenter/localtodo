@@ -15,6 +15,7 @@ angular.module('todoApp')
     .controller('TodoController', ['$scope', '$indexedDB', '$log', function($scope, $indexedDB, $log) {
         $scope.todos = [];
         $scope.activeTags = [];
+        $scope.tagsSorting = "-count";
 
         $indexedDB.openStore('todos', function(todos){
             todos.getAll().then(function(todos) {

@@ -43,7 +43,7 @@
             <tabset>
                 <tab>
                     <tab-heading>
-                        All Items <span class="badge">{{remaining()}} / {{todos.length - remaining()}}</span>
+                        All Items <span class="badge">{{remaining()}} / {{todos.length}}</span>
                     </tab-heading>
                     <ul class="list-group">
                         <li class="list-group-item done-{{todo.done}}" ng-repeat="todo in todos | filter : searchString | orderBy : ['done', '-completed', 'priority'] track by todo.key" ng-hide="!showDone && todo.done">
@@ -56,8 +56,15 @@
             </tabset>
         </div>
         <div class="col-sm-3 col-sm-offset-1">
+            <h4>Tags</h4>
+            <div>
+                <div class="btn-group">
+                    <label class="btn btn-info btn-xs" ng-model="tagsSorting" btn-radio="'-count'">Frequency</label>
+                    <label class="btn btn-info btn-xs" ng-model="tagsSorting" btn-radio="'tag'">Alphabet</label>
+                </div>
+            </div>
             <ul class="list-group">
-                <li class="list-group-item" ng-repeat="tagInfo in activeTags | orderBy: '-count'"><a href="" ng-click="searchFor(tagInfo.tag)">{{tagInfo.tag}}</a> - {{tagInfo.count}}</li>
+                <li class="list-group-item" ng-repeat="tagInfo in activeTags | orderBy: tagsSorting"><a href="" ng-click="searchFor(tagInfo.tag)">{{tagInfo.tag}}</a><span class="pull-right">{{tagInfo.count}}</span></li>
             </ul>
         </div>
     </div>
