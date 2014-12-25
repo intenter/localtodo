@@ -10,3 +10,18 @@
 .list-group-item {
     padding: 4px 10px;
 }
+
+.priority-1 {
+    color:#8a6d3b;
+    background-color:#fcf8e3
+}
+
+.priority-2 {
+    color:#31708f;
+    background-color:#d9edf7
+}
+
+.priority-3 {
+    color:#3c763d;
+    background-color:#dff0d8
+}

@@ -47,9 +47,9 @@
                         All Items <span class="badge">{{remaining()}} / {{todos.length}}</span>
                     </tab-heading>
                     <ul class="list-group">
-                        <li class="list-group-item done-{{todo.done}}" ng-repeat="todo in todos | filter : searchString | orderBy : ['done', '-completed', 'priority'] track by todo.key" ng-hide="!showDone && todo.done">
+                        <li class="list-group-item done-{{todo.done}} priority-{{todo.priority}}" ng-repeat="todo in todos | filter : searchString | orderBy : ['done', '-completed', 'priority'] track by todo.key" ng-hide="!showDone && todo.done">
                             <input type="checkbox" ng-model="todo.selected" ng-hide="todo.done">
-                            <span>[{{todo.priority + 1}}] <a href="" ng-click="searchFor(tag)" ng-repeat="tag in todo.tags" class="label label-primary label-margin">{{tag}}</a> {{todo.text}}</span>
+                            <span><a href="" ng-click="searchFor(tag)" ng-repeat="tag in todo.tags" class="label label-primary label-margin">{{tag}}</a> {{todo.text}}</span>
                             <span class="pull-right" ng-show="todo.done">{{todo.completed | date}}</span>
                         </li>
                     </ul>

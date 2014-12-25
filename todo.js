@@ -34,16 +34,13 @@ angular.module('todoApp')
         $scope.addTodo = function() {
             var tags = [];
             var todoText = "";
-            var priority = 0;
+            var priority = 1;
             $scope.todoText.split(" ").forEach(function(token){
                 if (!isEmpty(token)) {
                     if (token.charAt(0) === '#') {
                         tags.push(token.substr(1));
                     } else if (token.charAt(0) === '!'){
-                        priority = parseInt(token.substr(1)) - 1;
-                        if (priority > 2) {
-                            priority = 2;
-                        }
+                        priority = parseInt(token.substr(1));
                     } else {
                         todoText = todoText.length === 0 ? token : todoText + " " + token;
                     }
@@ -110,7 +107,7 @@ angular.module('todoApp')
             });
         }
 
-        this.selectAllNotCompleted = function(select) {
+        $scope.selectAllNotCompleted = function(select) {
             angular.forEach($scope.todos, function (todo) {
                 if (!todo.done){
                     todo.selected = select;
@@ -120,11 +117,11 @@ angular.module('todoApp')
 
         $scope.keyPressed = function($event){
             if ($event.keyCode == 65 || $event.keyCode == 97) {
-                this.selectAllNotCompleted(true);
+                $scope.selectAllNotCompleted(true);
             } else if ($event.keyCode == 78 || $event.keyCode == 110) {
-                this.selectAllNotCompleted(false);
+                $scope.selectAllNotCompleted(false);
             } else if ($event.keyCode >= 49 && $event.keyCode <= 51) {
-                setPriority($event.keyCode - 49);
+                setPriority($event.keyCode - 48);
             }
             $log.debug('Key pressed: ' + $event.keyCode);
         };
