@@ -6,6 +6,7 @@
     <script type="text/javascript" src="scripts/ui-bootstrap-tpls-0.12.0.js"></script>
     <script type="text/javascript" src="scripts/angular-indexed-db.js"></script>
     <script type="text/javascript" src="todo.js"></script>
+    <script type="text/javascript" src="todoEditor.js"></script>
     <link rel="stylesheet" href="todo.css">
     <title>Local Todo List</title>
 </head>
@@ -19,8 +20,7 @@
         </div>
         <form ng-submit="addTodo()" class="navbar-form navbar-left">
             <div class="form-group">
-                <input type="text" ng-model="todoText"  size="60"
-                       placeholder="add new todo here" class="form-control" ng-keypress="doNothingOnKeyPress($event)">
+                <todo-editor></todo-editor>
             </div>
             <button class="btn btn-primary" type="submit">Add</button>
         </form>
