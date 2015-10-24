@@ -82,6 +82,8 @@ angular.module('todoApp')
                 $scope.selectAllNotCompleted(true);
             } else if ($event.keyCode == 78 || $event.keyCode == 110) {
                 $scope.selectAllNotCompleted(false);
+            } else if ($event.keyCode == 67 || $event.keyCode == 99) {
+                $scope.searchString = '';
             } else if ($event.keyCode >= 49 && $event.keyCode <= 51) {
                 setPriority($event.keyCode - 48);
             }

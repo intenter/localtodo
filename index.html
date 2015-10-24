@@ -68,6 +68,15 @@
             <ul class="list-group">
                 <li class="list-group-item" ng-repeat="tagInfo in activeTags | orderBy: tagsSorting"><a href="" ng-click="searchFor(tagInfo.tag)">{{tagInfo.tag}}</a><span class="pull-right">{{tagInfo.count}}</span></li>
             </ul>
+            <div class="panel panel-default">
+                <div class="panel-heading">Keymap</div>
+                <div class="panel-body">
+                    'a' - select all<br>
+                    'n' - select none<br>
+                    'c' - clear search<br>
+                    '1'-'3' - set priority
+                </div>
+            </div>
         </div>
     </div>
 </div>
